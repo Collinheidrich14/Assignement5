@@ -80,7 +80,7 @@ public class Program5 {
 	 */
 	 private static void calculateReportsAfterDate() {
 	        try (Scanner scanner = new Scanner(System.in)) {
-	            System.out.print("Enter the state (e.g., IL: ");
+	            System.out.print("Enter the state (e.g., IL): ");
 	            String state = scanner.nextLine();
 	            System.out.print("Enter the date (e.g., 2022-09-08): ");
 	            String dateStr = scanner.nextLine();
@@ -93,14 +93,16 @@ public class Program5 {
 	                Instant start = Instant.now();
 	                int count = bst.countReportsAfterDate(dateReport);
 	                Instant end = Instant.now();
-	                System.out.println(count+" reports are available for "+state+" on and after the date: " + dateStr);
-	                System.out.println( Duration.between(start, end).toMillis() +  " seconds to calculate this using children count fields");   
+	        		double timeInNanoSeconds = Duration.between(start, end).getNano();
+	        		System.out.println(count+" reports are available for "+state+" on and after the date: " + dateStr);
+	                System.out.println((double)( timeInNanoSeconds)/1000000000 +  " seconds to calculate this using children count fields");   
 	                if (bst != null) {
 	                    Instant start1 = Instant.now();
 	                     count = bst.countReportsAfterDateRecursive(bst.root,dateReport.getStartTime());
 	                    Instant end1 = Instant.now();
+		        		double timeInNanoSeconds1 = Duration.between(start1, end1).getNano();
 		                System.out.println(count+" reports are available for "+state+" on and after the date: " + dateStr);
-		                System.out.println( Duration.between(start1, end1).toMillis() +  " seconds to calculate this using recursive method");   
+		                System.out.println( (double)(timeInNanoSeconds1)/1000000000 +  " seconds to calculate this using recursive method");   
 	         
 	                }} else {
 	                System.out.println("No data found for the specified state.");
@@ -154,13 +156,17 @@ public class Program5 {
 	 * @return formatted date
 	 */
 	private static String handleDateFormat(String dateStr) {
+	    if (!dateStr.isEmpty()) {
+
 		String[] dateSplit = dateStr.contains("/") ? dateStr.split("/") : dateStr.split("-");
 		String year = String.format("%4d", Integer.parseInt(dateSplit[0]));
 		String month = String.format("%02d", Integer.parseInt(dateSplit[1]));
 		String day = String.format("%02d", Integer.parseInt(dateSplit[2]));
 		return String.format("%s-%s-%s", month, day, year);
-	}
-
+	} else {
+        return ""; // Return empty string if input is empty
+    }
+}
 	/**
 	 * Regular Expression that matches characters \. and replaces with empty string
 	 * 
