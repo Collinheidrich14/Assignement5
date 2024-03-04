@@ -10,7 +10,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-
+/**
+ * This Java file reads the cvs file and output the information into a BTS. The tree can then be searched and information is gathered from it
+*  Some sources I used where https://www.youtube.com/watch?v=GzJoqJO1zdI, https://www.youtube.com/watch?v=M6lYob8STMI, and using chatgpt for basic things to save time.
+* @author Collin Heidrich, Jesse Cyrbrophy
+* @version Febuary 28 2021
+*/
 
 public class Program5 {
 	private static final String READABLE_DATETIME_FORMAT = "MM-dd-yyyy H:mm:ss";
@@ -23,7 +28,9 @@ public class Program5 {
 //		String promptCSV = prompt();
 	}
 /**
- * 
+ * A method to populate the BTS with accidents.csv
+ * Reads the data from CSV file to a BTS and 
+ * calculates the size of the BTS
  */
 	private static void executePopulatingBST() {
 		// converting incoming string startDate into a LocalDateTime object
@@ -68,13 +75,14 @@ public class Program5 {
 		}
 	}
 	/**
-	 * 
+	 * A method to calculate the number of inputs after
+	 * user input state and date
 	 */
 	 private static void calculateReportsAfterDate() {
 	        try (Scanner scanner = new Scanner(System.in)) {
-	            System.out.print("Enter state : ");
+	            System.out.print("Enter the state (e.g., IL: ");
 	            String state = scanner.nextLine();
-	            System.out.print("Enter date (YYYY-MM-DD): ");
+	            System.out.print("Enter the date (e.g., 2022-09-08): ");
 	            String dateStr = scanner.nextLine();
 
 	            LocalDateTime dateTime = LocalDateTime.parse(dateStr + "T00:00:00");
@@ -85,14 +93,14 @@ public class Program5 {
 	                Instant start = Instant.now();
 	                int count = bst.countReportsAfterDate(dateReport);
 	                Instant end = Instant.now();
-	                System.out.println("Number of reports/accidents on and after the specified date: " + count);
-	                System.out.println("Time taken to calculate using children count fields: " + Duration.between(start, end).toMillis() + " milliseconds");   
+	                System.out.println(count+" reports are available for "+state+" on and after the date: " + dateStr);
+	                System.out.println( Duration.between(start, end).toMillis() +  " seconds to calculate this using children count fields");   
 	                if (bst != null) {
 	                    Instant start1 = Instant.now();
 	                     count = bst.countReportsAfterDateRecursive(bst.root,dateReport.getStartTime());
 	                    Instant end1 = Instant.now();
-	                    System.out.println("Number of reports/accidents on and after the specified date: " + count);
-	                    System.out.println("Time taken to calculate using recursive method: " + Duration.between(start1, end1).toMillis() + " milliseconds");   
+		                System.out.println(count+" reports are available for "+state+" on and after the date: " + dateStr);
+		                System.out.println( Duration.between(start1, end1).toMillis() +  " seconds to calculate this using recursive method");   
 	         
 	                }} else {
 	                System.out.println("No data found for the specified state.");
