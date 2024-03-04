@@ -15,6 +15,7 @@ Jesse wrote executePopulatingBST
 
 calculateReportsAfterDate was a team effort to help the code 
 to run
+
 Authors
 
 Collin Heidrich Tasks 2-3 Readme file and Git
